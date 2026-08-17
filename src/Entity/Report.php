@@ -26,7 +26,7 @@ class Report implements ReportInterface
 
     protected array $rendererConfiguration = [];
 
-    protected string $dataFetcher = DefaultDataFetchers::USER_REGISTRATION;
+    protected string $dataFetcher = DefaultDataFetchers::SALES_TOTAL;
 
     protected array $dataFetcherConfiguration = [];
 

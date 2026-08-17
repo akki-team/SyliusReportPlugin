@@ -104,17 +104,17 @@ final class ReportTypeSpec extends ObjectBehavior
         FormView $view,
         FormInterface $form,
         FormInterface $formTable,
-        FormInterface $formUserRegistration
+        FormInterface $formSalesTotal
     ) {
         $prototypes = [
-            'dataFetchers' => ['user_registration' => $formUserRegistration],
+            'dataFetchers' => ['sales_total' => $formSalesTotal],
             'renderers' => ['table' => $formTable],
         ];
         $config->getAttribute('prototypes')->willReturn($prototypes);
         $form->getConfig()->willReturn($config);
 
         $formTable->createView($view)->shouldBeCalled();
-        $formUserRegistration->createView($view)->shouldBeCalled();
+        $formSalesTotal->createView($view)->shouldBeCalled();
 
         $this->buildView($view, $form, []);
     }

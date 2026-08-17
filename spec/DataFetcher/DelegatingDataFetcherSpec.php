@@ -9,7 +9,7 @@ use Odiseo\SyliusReportPlugin\DataFetcher\DataFetcherInterface;
 use Odiseo\SyliusReportPlugin\DataFetcher\DefaultDataFetchers;
 use Odiseo\SyliusReportPlugin\DataFetcher\DelegatingDataFetcher;
 use Odiseo\SyliusReportPlugin\DataFetcher\DelegatingDataFetcherInterface;
-use Odiseo\SyliusReportPlugin\DataFetcher\UserRegistrationDataFetcher;
+use Odiseo\SyliusReportPlugin\DataFetcher\SalesTotalDataFetcher;
 use Odiseo\SyliusReportPlugin\Entity\ReportInterface;
 use PhpSpec\ObjectBehavior;
 use Sylius\Component\Registry\ServiceRegistryInterface;
@@ -31,11 +31,11 @@ class DelegatingDataFetcherSpec extends ObjectBehavior
         $this->shouldImplement(DelegatingDataFetcherInterface::class);
     }
 
-    function it_get_the_data_fetcher_with_given_report(ReportInterface $report, ServiceRegistryInterface $registry, UserRegistrationDataFetcher $userRegistrationDataFetcher)
+    function it_get_the_data_fetcher_with_given_report(ReportInterface $report, ServiceRegistryInterface $registry, SalesTotalDataFetcher $salesTotalDataFetcher)
     {
-        $report->getDataFetcher()->willReturn(DefaultDataFetchers::USER_REGISTRATION);
-        $registry->get(DefaultDataFetchers::USER_REGISTRATION)->willReturn($userRegistrationDataFetcher);
-        $this->getDataFetcher($report)->shouldReturn($userRegistrationDataFetcher);
+        $report->getDataFetcher()->willReturn(DefaultDataFetchers::SALES_TOTAL);
+        $registry->get(DefaultDataFetchers::SALES_TOTAL)->willReturn($salesTotalDataFetcher);
+        $this->getDataFetcher($report)->shouldReturn($salesTotalDataFetcher);
     }
 
     function it_fetch_the_data_with_given_report_configuration(ReportInterface $report, DataFetcherInterface $dataFetcher, ServiceRegistryInterface $registry)
@@ -50,8 +50,8 @@ class DelegatingDataFetcherSpec extends ObjectBehavior
         ];
         $data = new Data();
 
-        $report->getDataFetcher()->willReturn(DefaultDataFetchers::USER_REGISTRATION);
-        $registry->get(DefaultDataFetchers::USER_REGISTRATION)->willReturn($dataFetcher);
+        $report->getDataFetcher()->willReturn(DefaultDataFetchers::SALES_TOTAL);
+        $registry->get(DefaultDataFetchers::SALES_TOTAL)->willReturn($dataFetcher);
         $report->getDataFetcherConfiguration()->willReturn($reportConfiguration);
         $dataFetcher->fetch($reportConfiguration)->willReturn($data);
 
@@ -71,8 +71,8 @@ class DelegatingDataFetcherSpec extends ObjectBehavior
         ];
         $data = new Data();
 
-        $report->getDataFetcher()->willReturn(DefaultDataFetchers::USER_REGISTRATION);
-        $registry->get(DefaultDataFetchers::USER_REGISTRATION)->willReturn($dataFetcher);
+        $report->getDataFetcher()->willReturn(DefaultDataFetchers::SALES_TOTAL);
+        $registry->get(DefaultDataFetchers::SALES_TOTAL)->willReturn($dataFetcher);
         $report->getDataFetcherConfiguration()->willReturn($reportConfiguration);
         $dataFetcher->fetch($otherConfiguration)->willReturn($data);
 

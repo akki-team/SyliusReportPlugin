@@ -25,8 +25,6 @@ odiseo_sylius_report_plugin:
         renderer:
             label:  Moteur de rendu
             template: Gabarit
-            chart:
-                type: Type
         time_period:
             start: Date de début
             end: Date de fin
@@ -48,15 +46,11 @@ odiseo_sylius_report_plugin:
         all_channels: Toutes les chaînes
         category: Catégorie
     renderer:
-        chart: Moteur de rendu graphique
         table: Moteur de rendu par tableau
     data_fetcher:
-        user_registration: Enregistrement d'utilisateurs
         sales_total: Total des ventes
         number_of_orders: Nombre de commandes
 
 odiseo_sylius_report_plugin_renderer_table: Moteur de rendu par tableau
-odiseo_sylius_report_plugin_renderer_chart: Moteur de rendu graphique
-odiseo_sylius_report_plugin_data_fetcher_user_registration: Enregistrement d'utilisateurs
 odiseo_sylius_report_plugin_data_fetcher_sales_total: Total des ventes
 odiseo_sylius_report_plugin_data_fetcher_number_of_orders: Nombre de commandes

@@ -8,15 +8,6 @@ services:
         arguments:
             - '@odiseo_sylius_report_plugin.registry.data_fetcher'
 
-    odiseo_sylius_report_plugin.data_fetcher.user_registration:
-        class: Odiseo\SyliusReportPlugin\DataFetcher\UserRegistrationDataFetcher
-        arguments:
-            - '%sylius.model.shop_user.class%'
-            - '@odiseo_sylius_report_plugin.filter.query_filter'
-            - '@odiseo_sylius_report_plugin.data_fetcher.data'
-        tags:
-            - { name: odiseo_sylius_report_plugin.data_fetcher, fetcher: odiseo_sylius_report_plugin_data_fetcher_user_registration, label: "odiseo_sylius_report_plugin.data_fetcher.user_registration" }
-
     odiseo_sylius_report_plugin.data_fetcher.sales_total:
         class: Odiseo\SyliusReportPlugin\DataFetcher\SalesTotalDataFetcher
         arguments:

@@ -35,8 +35,6 @@ odiseo_sylius_report_plugin:
         renderer:
             label:  Renderer
             template: Template
-            chart:
-                type: Type
         time_period:
             start: Start date
             end: End date
@@ -58,15 +56,11 @@ odiseo_sylius_report_plugin:
         all_channels: All channels
         category: Category
     renderer:
-        chart: Chart renderer
         table: Table renderer
     data_fetcher:
-        user_registration: User registration
         sales_total: Sales Total
         number_of_orders: Number of orders
 
 odiseo_sylius_report_plugin_renderer_table: Table renderer
-odiseo_sylius_report_plugin_renderer_chart: Chart renderer
-odiseo_sylius_report_plugin_data_fetcher_user_registration: User Registration
 odiseo_sylius_report_plugin_data_fetcher_sales_total: Sales Total
 odiseo_sylius_report_plugin_data_fetcher_number_of_orders: Number of orders

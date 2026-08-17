@@ -67,7 +67,7 @@ final class ReportSpec extends ObjectBehavior
 
     function it_has_a_default_data_fetcher(): void
     {
-        $this->getDataFetcher()->shouldReturn(DefaultDataFetchers::USER_REGISTRATION);
+        $this->getDataFetcher()->shouldReturn(DefaultDataFetchers::SALES_TOTAL);
     }
 
     function it_has_a_default_renderer_configuration(): void
@@ -106,8 +106,8 @@ final class ReportSpec extends ObjectBehavior
         $this->setDataFetcherConfiguration(['test' => 'yes']);
         $this->getDataFetcherConfiguration()->shouldReturn(['test' => 'yes']);
 
-        $this->setRenderer(DefaultRenderers::CHART);
-        $this->getRenderer()->shouldReturn(DefaultRenderers::CHART);
+        $this->setRenderer(DefaultRenderers::TABLE);
+        $this->getRenderer()->shouldReturn(DefaultRenderers::TABLE);
 
         $this->setRendererConfiguration(['test' => 'yes']);
         $this->getRendererConfiguration()->shouldReturn(['test' => 'yes']);
