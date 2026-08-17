@@ -1,5 +1,10 @@
-{% import '@SyliusUi/Macro/buttons.html.twig' as buttons %}
-
 {% set path = options.link.url|default(path(options.link.route, options.link.parameters)) %}
+{% set message = action.label|default('odiseo_sylius_report_plugin.ui.export') %}
 
-{{ buttons.default(path, action.label, null, 'download', 'brown') }}
+<a href="{{ path }}"
+   class="btn btn-icon"
+   data-bs-toggle="tooltip"
+   data-bs-title="{{ message|trans }}"
+>
+    {{ ux_icon(action.icon|default('tabler:download')) }}
+</a>

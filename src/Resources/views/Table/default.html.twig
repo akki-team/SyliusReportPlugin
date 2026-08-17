@@ -5,7 +5,9 @@
 {% set values = data.values %}
 
 {% if labels is defined %}
-<div class="ui segment">
-    {{ list(report, labels, values) }}
-</div>
+    <div class="card">
+        <div class="card-body">
+            {{ list(report, labels, values) }}
+        </div>
+    </div>
 {% endif %}
