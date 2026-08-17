@@ -1,78 +1,82 @@
-{% extends '@SyliusAdmin/layout.html.twig' %}
+{% extends '@SyliusAdmin/shared/layout/base.html.twig' %}
 
-{% import '@SyliusUi/Macro/headers.html.twig' as headers %}
-{% import '@SyliusUi/Macro/buttons.html.twig' as buttons %}
-{% import '@SyliusAdmin/Macro/breadcrumb.html.twig' as breadcrumb %}
+{% import '@SyliusAdmin/shared/helper/breadcrumbs.html.twig' as breadcrumbs %}
 
 {% form_theme form '@OdiseoSyliusReportPlugin/Form/theme.html.twig' %}
 
-{% set breadcrumbs = [
-    { label: 'sylius.ui.administration'|trans, url: path('sylius_admin_dashboard') },
-    { label: (metadata.applicationName~'.ui.'~metadata.pluralName)|trans, url: path('odiseo_sylius_report_plugin_admin_report_index', configuration.vars.route.parameters|default({})) },
-    { label: resource.name }
+{% set fil_ariane = [
+    { name: 'sylius.ui.administration', url: path('sylius_admin_dashboard') },
+    {
+        name: metadata.applicationName ~ '.ui.' ~ metadata.pluralName,
+        url: path('odiseo_sylius_report_plugin_admin_report_index', configuration.vars.route.parameters|default({}))
+    },
+    { name: resource.name }
 ] %}
 
-{% set event_prefix = metadata.applicationName ~ '.admin.' ~ metadata.name ~ '.show' %}
+{% block title %}{{ resource.name }} | {{ parent() }}{% endblock %}
 
-{% block title %}{{ resource.name }} {{ parent() }}{% endblock %}
-
-{% block content %}
-    {% block show_header %}
-        {{ sonata_block_render_event(event_prefix ~ '.before_header', {'resource': resource}) }}
-
-        <div class="ui stackable two column grid">
-            {% block show_header_breadcrumbs %}
-                <div class="column">
-                    {{ headers.default(resource.name, configuration.vars.icon|default('bar chart'), configuration.vars.subheader|default(null)|trans) }}
-                    {{ breadcrumb.crumble(breadcrumbs) }}
+{% block body %}
+    <div class="container-xl">
+        <div class="page-header mb-3">
+            <div class="row align-items-center">
+                <div class="col">
+                    {{ breadcrumbs.breadcrumbs(fil_ariane) }}
+                    <h1 class="page-title">{{ resource.name }}</h1>
+                    {% if configuration.vars.subheader|default(null) is not empty %}
+                        <div class="text-secondary">{{ configuration.vars.subheader|trans }}</div>
+                    {% endif %}
                 </div>
-            {% endblock %}
 
-            {% block show_header_buttons %}
-                <div class="middle aligned column">
-                    <div class="ui right floated buttons">
-                        {{ buttons.default(path('odiseo_sylius_report_plugin_admin_report_update', {'id': resource.id}), 'sylius.ui.edit', null, 'pencil') }}
-                        {{ buttons.default(path('odiseo_sylius_report_plugin_admin_report_export', {'id': resource.id}), 'odiseo_sylius_report_plugin.ui.export', null, 'download',  'brown') }}
+                <div class="col-auto ms-auto">
+                    <div class="btn-list">
+                        <a href="{{ path('odiseo_sylius_report_plugin_admin_report_update', {'id': resource.id}) }}" class="btn">
+                            {{ ux_icon('tabler:pencil') }}
+                            {{ 'sylius.ui.edit'|trans }}
+                        </a>
+                        <a href="{{ path('odiseo_sylius_report_plugin_admin_report_export', {'id': resource.id}) }}" class="btn btn-primary">
+                            {{ ux_icon('tabler:download') }}
+                            {{ 'odiseo_sylius_report_plugin.ui.export'|trans }}
+                        </a>
                     </div>
                 </div>
-            {% endblock %}
+            </div>
         </div>
 
-        {{ sonata_block_render_event(event_prefix ~ '.after_header', {'resource': resource}) }}
-    {% endblock %}
+        {% set chemin_courant = path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) %}
 
-    {% block show_filters %}
-        {% set path = path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) %}
+        <div class="card mb-3">
+            <div class="card-header">
+                <h2 class="card-title">{{ 'sylius.ui.filters'|trans }}</h2>
+            </div>
+            <div class="card-body">
+                <form method="get" action="{{ chemin_courant }}">
+                    {{ include('@OdiseoSyliusReportPlugin/_dataFetcherConfiguration.html.twig', {
+                        'configurationForm': form.dataFetcherConfiguration
+                    }) }}
 
-        <div class="ui hidden divider"></div>
-
-        <div class="ui segment">
-            <h4 class="ui header">
-                {{ 'sylius.ui.filters'|trans }}
-            </h4>
-            <form method="get" action="{{ path }}" class="ui loadable form">
-                {{ include('@OdiseoSyliusReportPlugin/_dataFetcherConfiguration.html.twig', { 'configurationForm': form.dataFetcherConfiguration }) }}
-                <br>
-                {{ buttons.filter() }}
-                {{ buttons.resetFilters(path) }}
-            </form>
+                    <div class="btn-list mt-3">
+                        <button type="submit" class="btn btn-primary">
+                            {{ ux_icon('tabler:filter') }}
+                            {{ 'sylius.ui.filter'|trans }}
+                        </button>
+                        <a href="{{ chemin_courant }}" class="btn">{{ 'sylius.ui.clear_filters'|trans }}</a>
+                    </div>
+                </form>
+            </div>
         </div>
-    {% endblock %}
 
-    {% block show_results %}
         <div id="report-results">
-            {{ render(controller('odiseo_sylius_report_plugin.controller.report::embedAction', {'report': report, 'configuration' : report.dataFetcherConfiguration})) }}
+            {{ render(controller('odiseo_sylius_report_plugin.controller.report::embedAction', {
+                'report': report,
+                'configuration': report.dataFetcherConfiguration
+            })) }}
         </div>
-    {% endblock %}
-
-    {{ sonata_block_render_event(event_prefix ~ '.after_content', {'resource': resource}) }}
+    </div>
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
 
-    {{ include('@SyliusUi/_javascripts.html.twig', {'path': 'bundles/odiseosyliusreportplugin/js/Chart.min.js'}) }}
-    {{ include('@SyliusUi/_javascripts.html.twig', {'path': 'bundles/odiseosyliusreportplugin/js/report-chart.js'}) }}
-    {{ include('@SyliusUi/_javascripts.html.twig', {'path': 'bundles/odiseosyliusreportplugin/js/report-auto-complete.js'}) }}
-    {{ include('@SyliusUi/_javascripts.html.twig', {'path': 'bundles/odiseosyliusreportplugin/js/report.js'}) }}
+    <script src="{{ asset('bundles/odiseosyliusreportplugin/js/report-auto-complete.js') }}"></script>
+    <script src="{{ asset('bundles/odiseosyliusreportplugin/js/report.js') }}"></script>
 {% endblock %}
