@@ -9,10 +9,10 @@
     "description": "Plugin for Sylius to make customizable reports.",
     "license": "MIT",
     "require": {
-        "php": "^8.0",
-        "sylius/sylius": "^1.12",
-        "sylius/mailer-bundle":  "^1.8 || ^2.0@beta",
-        "symfony/webpack-encore-bundle": "^1.15",
+        "php": "^8.2",
+        "sylius/sylius": "^2.0",
+        "sylius/mailer-bundle": "^1.8 || ^2.0@beta",
+        "symfony/webpack-encore-bundle": "^1.15 || ^2.0",
         "beberlei/doctrineextensions": "^1.2"
     },
     "require-dev": {
