@@ -1,8 +1,8 @@
-{% extends '@SyliusAdmin/Crud/create.html.twig' %}
+{% extends '@SyliusAdmin/shared/crud/create.html.twig' %}
 
 {% block javascripts %}
     {{ parent() }}
 
-    {{ include('@SyliusUi/_javascripts.html.twig', {'path': 'bundles/odiseosyliusreportplugin/js/report-auto-complete.js'}) }}
-    {{ include('@SyliusUi/_javascripts.html.twig', {'path': 'bundles/odiseosyliusreportplugin/js/report.js'}) }}
+    <script src="{{ asset('bundles/odiseosyliusreportplugin/js/report-auto-complete.js') }}"></script>
+    <script src="{{ asset('bundles/odiseosyliusreportplugin/js/report.js') }}"></script>
 {% endblock %}
