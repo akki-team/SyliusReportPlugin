@@ -15,61 +15,75 @@
 
 {% block title %}{{ resource.name }} | {{ parent() }}{% endblock %}
 
+{# Le gabarit de base ne fournit que le squelette HTML : la barre laterale et l'entete
+   sont des composants a part, que Sylius appelle avec des prefixes explicites — ils
+   s'incluent donc directement. La structure page-wrapper / page-header / page-body est
+   celle des ecrans CRUD de Sylius 2. #}
 {% block body %}
-    <div class="container-xl">
-        <div class="page-header mb-3">
-            <div class="row align-items-center">
-                <div class="col">
-                    {{ breadcrumbs.breadcrumbs(fil_ariane) }}
-                    <h1 class="page-title">{{ resource.name }}</h1>
-                    {% if configuration.vars.subheader|default(null) is not empty %}
-                        <div class="text-secondary">{{ configuration.vars.subheader|trans }}</div>
-                    {% endif %}
-                </div>
+    {{ include('@SyliusAdmin/shared/crud/common/sidebar.html.twig') }}
 
-                <div class="col-auto ms-auto">
-                    <div class="btn-list">
-                        <a href="{{ path('odiseo_sylius_report_plugin_admin_report_update', {'id': resource.id}) }}" class="btn">
-                            {{ ux_icon('tabler:pencil') }}
-                            {{ 'sylius.ui.edit'|trans }}
-                        </a>
-                        <a href="{{ path('odiseo_sylius_report_plugin_admin_report_export', {'id': resource.id}) }}" class="btn btn-primary">
-                            {{ ux_icon('tabler:download') }}
-                            {{ 'odiseo_sylius_report_plugin.ui.export'|trans }}
-                        </a>
+    <div class="page-wrapper">
+        {{ include('@SyliusAdmin/shared/crud/common/navbar.html.twig') }}
+
+        <div class="page-header" data-sticky-header>
+            <div class="container-xl">
+                <div class="row mt-3 row-gap-2 align-items-center">
+                    <div class="col-12 col-md-6">
+                        {{ breadcrumbs.breadcrumbs(fil_ariane) }}
+                        <h1 class="page-title">{{ resource.name }}</h1>
+                        {% if configuration.vars.subheader|default(null) is not empty %}
+                            <div class="text-secondary">{{ configuration.vars.subheader|trans }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="col-12 col-md-6">
+                        <div class="btn-list justify-content-md-end">
+                            <a href="{{ path('odiseo_sylius_report_plugin_admin_report_update', {'id': resource.id}) }}" class="btn">
+                                {{ ux_icon('tabler:pencil') }}
+                                {{ 'sylius.ui.edit'|trans }}
+                            </a>
+                            <a href="{{ path('odiseo_sylius_report_plugin_admin_report_export', {'id': resource.id}) }}" class="btn btn-primary">
+                                {{ ux_icon('tabler:download') }}
+                                {{ 'odiseo_sylius_report_plugin.ui.export'|trans }}
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        {% set chemin_courant = path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) %}
+        <div class="page-body">
+            <div class="container-xl">
+                {% set chemin_courant = path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) %}
 
-        <div class="card mb-3">
-            <div class="card-header">
-                <h2 class="card-title">{{ 'sylius.ui.filters'|trans }}</h2>
-            </div>
-            <div class="card-body">
-                <form method="get" action="{{ chemin_courant }}">
-                    {{ include('@OdiseoSyliusReportPlugin/_dataFetcherConfiguration.html.twig', {
-                        'configurationForm': form.dataFetcherConfiguration
-                    }) }}
-
-                    <div class="btn-list mt-3">
-                        <button type="submit" class="btn btn-primary">
-                            {{ ux_icon('tabler:filter') }}
-                            {{ 'sylius.ui.filter'|trans }}
-                        </button>
-                        <a href="{{ chemin_courant }}" class="btn">{{ 'sylius.ui.clear_filters'|trans }}</a>
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <h2 class="card-title">{{ 'sylius.ui.filters'|trans }}</h2>
                     </div>
-                </form>
-            </div>
-        </div>
+                    <div class="card-body">
+                        <form method="get" action="{{ chemin_courant }}">
+                            {{ include('@OdiseoSyliusReportPlugin/_dataFetcherConfiguration.html.twig', {
+                                'configurationForm': form.dataFetcherConfiguration
+                            }) }}
 
-        <div id="report-results">
-            {{ render(controller('odiseo_sylius_report_plugin.controller.report::embedAction', {
-                'report': report,
-                'configuration': report.dataFetcherConfiguration
-            })) }}
+                            <div class="btn-list mt-3">
+                                <button type="submit" class="btn btn-primary">
+                                    {{ ux_icon('tabler:filter') }}
+                                    {{ 'sylius.ui.filter'|trans }}
+                                </button>
+                                <a href="{{ chemin_courant }}" class="btn">{{ 'sylius.ui.clear_filters'|trans }}</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div id="report-results">
+                    {{ render(controller('odiseo_sylius_report_plugin.controller.report::embedAction', {
+                        'report': report,
+                        'configuration': report.dataFetcherConfiguration
+                    })) }}
+                </div>
+            </div>
         </div>
     </div>
 {% endblock %}
