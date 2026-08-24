@@ -25,7 +25,9 @@ class ReportDataFetcherConfigurationType extends AbstractResourceType
         $report = $builder->getData();
         $dataFetcher = $this->delegatingDataFetcher->getDataFetcher($report);
 
-        $builder->add('dataFetcherConfiguration', $dataFetcher->getType());
+        // Groupe purement structurel : sans `label => false`, Symfony affiche le nom de
+        // propriete humanise, « Data fetcher configuration », en anglais.
+        $builder->add('dataFetcherConfiguration', $dataFetcher->getType(), ['label' => false]);
     }
 
     public function getBlockPrefix(): string

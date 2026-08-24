@@ -1,6 +1,7 @@
 {% extends '@SyliusAdmin/shared/layout/base.html.twig' %}
 
 {% import '@SyliusAdmin/shared/helper/breadcrumbs.html.twig' as breadcrumbs %}
+{% import '@SyliusAdmin/shared/helper/header.html.twig' as entete %}
 
 {% form_theme form '@OdiseoSyliusReportPlugin/Form/theme.html.twig' %}
 
@@ -30,14 +31,23 @@
         {{ include('@SyliusAdmin/shared/crud/common/navbar.html.twig') }}
 
         <div class="page-header" data-sticky-header>
+            {# Meme composition que l'entete natif : le fil d'ariane hors de la rangee, puis
+               `row mt-3 row-gap-2` (sans `align-items-center`), et le titre par la macro
+               `header.h1`. C'est le `mt-3` de la rangee qui creuse les 16 px entre le fil
+               d'ariane et le titre : imbrique dans la colonne, le fil n'en beneficiait pas
+               et l'ecart tombait a zero. #}
             <div class="container-xl">
-                <div class="row mt-3 row-gap-2 align-items-center">
+                {{ breadcrumbs.breadcrumbs(fil_ariane) }}
+
+                <div class="row mt-3 row-gap-2">
                     <div class="col-12 col-md-6">
-                        {{ breadcrumbs.breadcrumbs(fil_ariane) }}
-                        <h1 class="page-title">{{ resource.name }}</h1>
-                        {% if configuration.vars.subheader|default(null) is not empty %}
-                            <div class="text-secondary">{{ configuration.vars.subheader|trans }}</div>
-                        {% endif %}
+                        <div class="d-md-flex gap-2 align-items-center">
+                        {{ entete.h1(
+                            resource.name,
+                            null,
+                            configuration.vars.subheader|default(null) is not empty ? configuration.vars.subheader|trans : null
+                        ) }}
+                        </div>
                     </div>
 
                     <div class="col-12 col-md-6">

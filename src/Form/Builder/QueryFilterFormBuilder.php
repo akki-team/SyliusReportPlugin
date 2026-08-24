@@ -101,7 +101,8 @@ class QueryFilterFormBuilder implements QueryFilterFormBuilderInterface
     public function addTimePeriod(FormBuilderInterface $builder): void
     {
         $builder
-            ->add('timePeriod', TimePeriodType::class, [])
+            // Idem : les deux enfants portent leurs propres libelles, le groupe n'en a pas.
+            ->add('timePeriod', TimePeriodType::class, ['label' => false])
         ;
     }
 
