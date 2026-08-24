@@ -6,7 +6,11 @@ namespace Odiseo\SyliusReportPlugin\Repository;
 
 trait AddressRepositoryTrait
 {
-    abstract public function createQueryBuilder($alias, $indexBy = null);
+    // `createQueryBuilder()` est fournie par la classe utilisatrice, qui etend l'EntityRepository de
+    // Doctrine. La declaration abstraite qui figurait ici en donnait le contrat, mais avec une signature
+    // non typee : depuis doctrine/orm 3, qui type cette methode, PHP la jugeait incompatible et le
+    // chargement de toute classe utilisant ce trait echouait en erreur fatale. La retirer garde le trait
+    // utilisable sur l'ORM 2 comme sur l'ORM 3, ou une signature typee ici exclurait l'ORM 2.
 
     public function findByCityName(string $cityName): array
     {
