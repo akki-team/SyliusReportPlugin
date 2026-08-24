@@ -1,3 +1,8 @@
-{% import '@SyliusUi/macro/messages.html.twig' as messages %}
-
-{{ messages.info('odiseo_sylius_report_plugin.ui.there_are_no_reports_results') }}
+{# Les macros `@SyliusUi/macro/messages.html.twig` rendent du Semantic UI, absent de
+   l'administration Sylius 2 : le message s'affichait a un mot par ligne. On reprend
+   l'etat vide natif de l'admin. #}
+<div class="card">
+    <div class="empty">
+        <p class="empty-title">{{ 'odiseo_sylius_report_plugin.ui.there_are_no_reports_results'|trans }}</p>
+    </div>
+</div>

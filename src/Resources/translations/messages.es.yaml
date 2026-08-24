@@ -1,5 +1,6 @@
 odiseo_sylius_report_plugin:
     ui:
+        report: Reporte
         reports: Reportes
         manage_reports: Administrar reportes
         renderers: Renderizadores

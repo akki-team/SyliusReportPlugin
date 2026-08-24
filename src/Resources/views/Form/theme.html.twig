@@ -1,4 +1,6 @@
-{% extends '@SyliusUi/form/theme.html.twig' %}
+{# `@SyliusUi/form/theme.html.twig` est servi sous Sylius 2 par le pont boutique, en
+   Semantic UI : les widgets sortaient sans classe Bootstrap. #}
+{% extends '@SyliusAdmin/shared/form_theme.html.twig' %}
 
 {% block date_widget %}
     {% if widget == 'single_text' %}

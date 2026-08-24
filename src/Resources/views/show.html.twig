@@ -4,13 +4,17 @@
 
 {% form_theme form '@OdiseoSyliusReportPlugin/Form/theme.html.twig' %}
 
+{# Meme composition que le fil d'ariane natif des ecrans de vue
+   (@SyliusAdmin/shared/crud/show/content/header/breadcrumbs.html.twig) : premier maillon
+   « Tableau de bord » et non « Administration », et dernier maillon actif. #}
 {% set fil_ariane = [
-    { name: 'sylius.ui.administration', url: path('sylius_admin_dashboard') },
+    { name: 'sylius.ui.dashboard', url: path('sylius_admin_dashboard'), active: false },
     {
         name: metadata.applicationName ~ '.ui.' ~ metadata.pluralName,
-        url: path('odiseo_sylius_report_plugin_admin_report_index', configuration.vars.route.parameters|default({}))
+        url: path('odiseo_sylius_report_plugin_admin_report_index', configuration.vars.route.parameters|default({})),
+        active: false
     },
-    { name: resource.name }
+    { name: resource.name, active: true }
 ] %}
 
 {% block title %}{{ resource.name }} | {{ parent() }}{% endblock %}

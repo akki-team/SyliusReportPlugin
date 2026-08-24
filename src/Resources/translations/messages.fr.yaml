@@ -1,5 +1,6 @@
 odiseo_sylius_report_plugin:
     ui:
+        report: Rapport
         reports: Rapports
         manage_reports: Gérer les rapports
         renderers: Moteurs de rendu
